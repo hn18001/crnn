@@ -16,12 +16,14 @@ require('LstmLayer')
 require('BiRnnJoin')
 require('SharedParallelTable')
 
+require('nnx')
 
 -- configurations
-cutorch.setDevice(1)
-torch.setnumthreads(4)
+print(tonumber(arg[1]))
+cutorch.setDevice(tonumber(arg[1]))
+torch.setnumthreads(10)
 torch.setdefaulttensortype('torch.FloatTensor')
-local modelDir = arg[1]
+local modelDir = arg[2]
 setupLogger(paths.concat(modelDir, 'log.txt'))
 paths.dofile(paths.concat(modelDir, 'config.lua'))
 gConfig = getConfig()
@@ -34,7 +36,7 @@ local modelSize, nParamsEachLayer = modelSize(model)
 logging(string.format('Model size: %d\n%s', modelSize, nParamsEachLayer))
 
 -- load model snapshot
-local loadPath = arg[2]
+local loadPath = arg[3]
 if loadPath then
     local snapshot = torch.load(loadPath)
     loadModelState(model, snapshot)
@@ -42,7 +44,7 @@ if loadPath then
 end
 
 -- load dataset
-logging('Loading datasets...')
+logging('Loading datasets...%s', gConfig.trainSetpath)
 local trainSet = DatasetLmdb(gConfig.trainSetPath, gConfig.trainBatchSize)
 local valSet = DatasetLmdb(gConfig.valSetPath)
 
