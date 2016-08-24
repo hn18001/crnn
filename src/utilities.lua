@@ -263,7 +263,7 @@ end
 function loadAndResizeImage(imagePath)
     local img = Image.load(imagePath, 3, 'byte')
     img = Image.rgb2y(img)
-    img = Image.scale(img, 100, 32)[1]
+    img = Image.scale(img, 480, 32)[1]
     return img
 end
 

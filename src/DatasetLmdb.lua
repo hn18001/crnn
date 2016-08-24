@@ -57,7 +57,7 @@ end
 
 
 function DatasetLmdb:allImageLabel(nSampleMax)
-    local imgW, imgH = 100, 32
+    local imgW, imgH = 480, 32	--100, 32
     nSampleMax = nSampleMax or math.huge
     local nSample = math.min(self.nSamples, nSampleMax)
     local images = torch.ByteTensor(nSample, 1, imgH, imgW)
@@ -84,7 +84,7 @@ end
 
 
 function DatasetLmdb:nextBatch()
-    local imgW, imgH = 100, 32
+    local imgW, imgH = 480, 32	--100, 32
     local randomIndex = torch.LongTensor(self.batchSize):random(1, self.nSamples)
     local imageList, labelList = {}, {}
 
